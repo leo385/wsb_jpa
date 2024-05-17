@@ -1,10 +1,8 @@
 package com.capgemini.wsb.persistence.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "ADDRESS")
@@ -21,6 +19,15 @@ public class AddressEntity {
 	private String addressLine2;
 
 	private String postalCode;
+
+
+	/* Obie relacje są jeden do wiele, od strony Address */
+	@OneToMany(mappedBy = "address")
+	private Set<DoctorEntity> doctors = new HashSet<>();
+
+	@OneToMany(mappedBy = "address")
+	private Set<PatientEntity> patients = new HashSet<>();
+
 
 	public Long getId() {
 		return id;

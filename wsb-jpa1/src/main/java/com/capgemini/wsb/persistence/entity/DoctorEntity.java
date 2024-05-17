@@ -2,14 +2,9 @@ package com.capgemini.wsb.persistence.entity;
 
 import com.capgemini.wsb.persistence.enums.Specialization;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "DOCTOR")
@@ -36,6 +31,26 @@ public class DoctorEntity {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
+
+
+	/* Relacja dwustronna, Doctor jest właścicielem relacji */
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+	private Set<VisitEntity> visits = new HashSet<>();
+
+	/* Relacja jednostronna od strony Doctor */
+	@ManyToOne
+	@JoinColumn(name = "address_id", nullable = false)
+	private AddressEntity address;
+
+	/* Relacja dwustronna, właściciel Patient on zarządza.*/
+	@ManyToMany
+	@JoinTable(
+			name = "doctor_patient",
+			joinColumns = @JoinColumn(name = "doctor_id"),
+			inverseJoinColumns = @JoinColumn(name = "patient_id")
+	)
+	private Set<PatientEntity> patients = new HashSet<>();
+
 
 	public Long getId() {
 		return id;

@@ -1,13 +1,10 @@
 package com.capgemini.wsb.persistence.entity;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PATIENT")
@@ -33,6 +30,20 @@ public class PatientEntity {
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
+
+
+	/* Relacja jeden do wielu ze strony, czyli jednostronna od strony pacjenta */
+	@OneToMany(mappedBy = "patient")
+	private Set<VisitEntity> visits = new HashSet<>();
+
+	/* Relacja wiele do jednego, czyli jednostronna od strony pacjenta */
+	@ManyToOne
+	@JoinColumn(name = "address_id", nullable = false)
+	private AddressEntity address;
+
+	/* Relacja dwustronna, wiele do wielu */
+	@ManyToMany(mappedBy = "patients")
+	private Set<DoctorEntity> doctors = new HashSet<>();
 
 	public Long getId() {
 		return id;
