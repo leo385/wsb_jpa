@@ -32,6 +32,9 @@ public class PatientEntity {
 	private LocalDate dateOfBirth;
 
 
+	private Integer age;
+
+
 	/* Relacja jeden do wielu ze strony, czyli jednostronna od strony pacjenta */
 	@OneToMany(mappedBy = "patient")
 	private Set<VisitEntity> visits = new HashSet<>();
@@ -99,6 +102,15 @@ public class PatientEntity {
 
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	// Rozszerzamy PatientEntity o dodatkowe pole
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 
 }

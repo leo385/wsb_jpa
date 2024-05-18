@@ -19,19 +19,22 @@ public class VisitEntity {
 
 
 	/* Relacja dwustronna, wiele do jednego */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private DoctorEntity doctor;
 
 	/* Relacja dwustronna, wiele do jednego */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "patient_id", nullable = false)
 	private PatientEntity patient;
 
 	/* Relacja jednostronna ze strony Visit, jeden do jednego */
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "medical_treatment_id", referencedColumnName = "id")
+
+
 	private MedicalTreatmentEntity medicalTreatment;
+
 
 	public Long getId() {
 		return id;
@@ -56,5 +59,8 @@ public class VisitEntity {
 	public void setTime(LocalDateTime time) {
 		this.time = time;
 	}
+
+	public DoctorEntity getDoctor() { return doctor; }
+	public PatientEntity getPatient() { return patient; }
 
 }
