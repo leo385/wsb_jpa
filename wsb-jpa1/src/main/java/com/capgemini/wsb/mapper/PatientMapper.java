@@ -4,6 +4,8 @@ import com.capgemini.wsb.dto.PatientTO;
 import com.capgemini.wsb.dto.PatientTO;
 import com.capgemini.wsb.persistence.entity.PatientEntity;
 
+import java.util.stream.Collectors;
+
 public final class PatientMapper {
 
     public static PatientTO mapToTO(final PatientEntity patientEntity)
@@ -23,6 +25,13 @@ public final class PatientMapper {
         patientTO.setPatientNumber(patientEntity.getPatientNumber());
         patientTO.setDateOfBirth(patientEntity.getDateOfBirth());
         patientTO.setAge(patientEntity.getAge());
+
+        // Mapowanie wizyt
+        if (patientEntity.getVisits() != null) {
+            patientTO.setVisits(patientEntity.getVisits().stream()
+                    .map(VisitMapper::mapToTO)
+                    .collect(Collectors.toList()));
+        }
 
         return patientTO;
 

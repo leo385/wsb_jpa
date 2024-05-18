@@ -113,4 +113,11 @@ public class PatientEntity {
 		this.age = age;
 	}
 
+    public void setVisits(Set<VisitEntity> visits) {
+		this.visits = visits;
+    }
+
+	public Set<VisitEntity> getVisits(){
+		return visits;
+	}
 }

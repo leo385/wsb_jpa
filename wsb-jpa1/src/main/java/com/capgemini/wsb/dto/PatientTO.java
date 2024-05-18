@@ -3,6 +3,7 @@ package com.capgemini.wsb.dto;
 import javax.persistence.Column;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 public class PatientTO implements Serializable {
 
@@ -14,6 +15,7 @@ public class PatientTO implements Serializable {
         private String patientNumber;
         private LocalDate dateOfBirth;
         private Integer age;
+        private List<VisitTO> visits;
 
         public Long getId() {
             return id;
@@ -42,6 +44,8 @@ public class PatientTO implements Serializable {
         public Integer getAge() { return age; }
         public void setAge(Integer age) { this.age = age; }
 
+        public List<VisitTO> getVisits() { return visits; }
+        public void setVisits(List<VisitTO> visits) { this.visits = visits; }
 
 }
 

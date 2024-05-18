@@ -3,7 +3,9 @@ package com.capgemini.wsb.persistence.entity;
 import com.capgemini.wsb.persistence.enums.Specialization;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -108,4 +110,24 @@ public class DoctorEntity {
 		this.specialization = specialization;
 	}
 
+
+
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "DOCTOR_TO_ADDRESS",
+			joinColumns = @JoinColumn(name = "DOCTOR_ID"),
+			inverseJoinColumns = @JoinColumn(name = "ADDRESS_ID")
+	)
+	private Collection<AddressEntity> addresses;
+
+	public Collection<AddressEntity> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(Collection<AddressEntity> addresses) { this.addresses = addresses; }
+
+
+	public Collection<VisitEntity> getVisits() {
+		return visits;
+	}
 }

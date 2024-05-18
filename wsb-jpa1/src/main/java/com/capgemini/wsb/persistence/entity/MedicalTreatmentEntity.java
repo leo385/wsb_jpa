@@ -10,18 +10,15 @@ public class MedicalTreatmentEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(updatable = false, nullable = false, unique = true)
 	private Long id;
 
 	@Column(nullable = false)
 	private String description;
 
+	@Column(nullable = false, length = 50)
 	@Enumerated(EnumType.STRING)
 	private TreatmentType type;
-
-
-	/* Relacja jeden do jednego od strony Visit */
-	@OneToOne(mappedBy = "medicalTreatment")
-	private VisitEntity visit;
 
 	public Long getId() {
 		return id;
