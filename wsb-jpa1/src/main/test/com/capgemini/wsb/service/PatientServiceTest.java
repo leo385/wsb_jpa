@@ -4,6 +4,7 @@ import com.capgemini.wsb.dto.DoctorTO;
 import com.capgemini.wsb.dto.PatientTO;
 import com.capgemini.wsb.dto.VisitTO;
 import com.capgemini.wsb.service.PatientService;
+import com.capgemini.wsb.service.impl.PatientServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PatientServiceTest {
@@ -22,17 +25,41 @@ public class PatientServiceTest {
     private PatientService patientService;
     @Autowired
     private DoctorService doctorService;
+    @Autowired
+    private PatientServiceImpl patientServiceImpl;
 
+
+    /* test usuwajacy pacjenta sprawdza czy usuniete zostaly wszystkie wizyty (kaskada) i czy nie zostali usunieci doktorzy */
     @Transactional
     @Test
-    public void PatientShouldRemoveVisitTest() {
-        // given
+    public void deletePatientWithVisitsWithoutDoctors() {
+
         // when
-        patientService.deleteById(3L);
+        patientService.deleteById(1L);
+
         // then
         assertThat(patientService.findAll().size()).isEqualTo(2);
-        final DoctorTO doctorTO = doctorService.findById(3L);
+
+        final DoctorTO doctorTO = doctorService.findById(1L);
         assertThat(doctorTO.getVisits().size()).isEqualTo(1);
+
     }
+
+    /* pobranie pacjenta po ID powinno zwrocic struktore TO-sow odpowiadajaca wczesniejszym zalozeniom.
+    W asercjach sprawdz poprawnosc odczytu dodanego przez Ciebie pola z punktu pierwszego
+     */
+    @Transactional
+    @Test
+    public void checkIntegrityWithNewAddedField() {
+
+        // given
+        // when
+        final Integer age = patientService.findById(1L).getAge();
+
+        // then - Pierwszy pacjent ma 23 lata w bazie - sprawdzanie poprawności pola.
+        assertThat(age).isEqualTo(23);
+
+    }
+
 
 }

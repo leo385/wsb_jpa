@@ -1,6 +1,7 @@
 package com.capgemini.wsb.persistence.entity;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ public class PatientEntity {
 
 
 	/* Relacja jeden do wielu ze strony, czyli jednostronna od strony pacjenta */
-	@OneToMany(mappedBy = "patient")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "patient", orphanRemoval = true)
 	private Set<VisitEntity> visits = new HashSet<>();
 
 	/* Relacja wiele do jednego, czyli jednostronna od strony pacjenta */
@@ -47,6 +48,16 @@ public class PatientEntity {
 	/* Relacja dwustronna, wiele do wielu */
 	@ManyToMany(mappedBy = "patients")
 	private Set<DoctorEntity> doctors = new HashSet<>();
+
+
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "PATIENT_TO_ADDRESS",
+			joinColumns = @JoinColumn(name = "PATIENT_ID"),
+			inverseJoinColumns = @JoinColumn(name = "ADDRESS_ID")
+	)
+
+	private Collection<AddressEntity> addresses;
 
 	public Long getId() {
 		return id;
