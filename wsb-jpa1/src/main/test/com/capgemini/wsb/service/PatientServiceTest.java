@@ -3,6 +3,7 @@ package com.capgemini.wsb.service;
 import com.capgemini.wsb.dto.DoctorTO;
 import com.capgemini.wsb.dto.PatientTO;
 import com.capgemini.wsb.dto.VisitTO;
+import com.capgemini.wsb.persistence.entity.PatientEntity;
 import com.capgemini.wsb.service.PatientService;
 import com.capgemini.wsb.service.impl.PatientServiceImpl;
 import org.junit.Test;
@@ -58,6 +59,19 @@ public class PatientServiceTest {
 
         // then - Pierwszy pacjent ma 23 lata w bazie - sprawdzanie poprawności pola.
         assertThat(age).isEqualTo(23);
+
+    }
+
+
+    /* Znajdz wszystkie wizyty pacjenta po jego ID */
+    @Transactional
+    @Test
+    public void testFindAllVisitsByPatientId() {
+
+        // when
+        final List<VisitTO> listOfVisits = patientService.findVisitsByPatientId(1L);
+        // then
+        assertThat(listOfVisits.size()).isEqualTo(1);
 
     }
 

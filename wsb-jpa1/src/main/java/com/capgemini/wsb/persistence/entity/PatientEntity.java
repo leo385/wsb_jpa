@@ -50,6 +50,7 @@ public class PatientEntity {
 	private Set<DoctorEntity> doctors = new HashSet<>();
 
 
+	/* Relacja dwustronna, wiele do wielu */
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "PATIENT_TO_ADDRESS",

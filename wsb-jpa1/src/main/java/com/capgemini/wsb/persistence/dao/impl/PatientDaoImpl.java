@@ -10,27 +10,27 @@ import java.util.List;
 @Repository
 public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao {
 
-
-    @Override
-    public List<PatientEntity> findByLastName(String lastName) {
-        return entityManager.createQuery("select p from PatientEntity p where p.lastName like :lastName", PatientEntity.class)
-                .setParameter("lastName", "%" + lastName + "%")
-                .getResultList();
-    }
-
-    @Override
-    public List<PatientEntity> findByDayOffGreaterThan(Long dayOff) {
-        return entityManager.createQuery("select p from PatientEntity p where p.dayOff > :dayOff", PatientEntity.class)
-                .setParameter("dayOff", dayOff)
-                .getResultList();
-    }
-
     @Override
     public List<PatientEntity> findByVisitsCountGreaterThan(Long visitsCount) {
         return entityManager.createQuery("select distinct p from PatientEntity p " +
                         " join p.visits v" +
                         " group by p having count(v) > :visitsCount", PatientEntity.class)
                 .setParameter("visitsCount", visitsCount)
+                .getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findByAgeCountGreaterThan(Integer ageCount) {
+        return entityManager.createQuery("select p from PatientEntity p" +
+                        " where p.age > :ageCount", PatientEntity.class)
+                .setParameter("ageCount", ageCount)
+                .getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findByLastName(String lastName) {
+        return entityManager.createQuery("select p from PatientEntity p where p.lastName like :lastName", PatientEntity.class)
+                .setParameter("lastName", "%" + lastName + "%")
                 .getResultList();
     }
 

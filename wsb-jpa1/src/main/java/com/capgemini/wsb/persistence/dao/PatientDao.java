@@ -7,12 +7,11 @@ import java.util.List;
 
 public interface PatientDao extends Dao<PatientEntity, Long>{
 
-
     List<PatientEntity> findByLastName(String lastName);
 
-    List<PatientEntity> findByDayOffGreaterThan(Long dayOff);
-
     List<PatientEntity> findByVisitsCountGreaterThan(Long visitsCount);
+
+    List<PatientEntity> findByAgeCountGreaterThan(Integer ageCount);
 
     List<VisitEntity> findVisitsByPatientId(Long id);
 }
